@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Large generated files — should never be committed
+*.parquet
+*.pt
+*.joblib
+*.npz
+*.pkl
+*.h5
+
+# Logs and caches generated at runtime
+alignment_out/
+pairing_out/
+window-output/
+preprocessing-output/
+stage3-output/
+optuna-out/
+sweep_generated_configs/
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
+windowing/network_run_summary_all.csv
+stage3-output-opt-tuned/merged/

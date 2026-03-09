@@ -1,0 +1,165 @@
+paths:
+  processed_dir: /path/to/the/directory/containing/output/of/preprocessing-stage
+  out_dir: /where/to/save/your/results/
+experiment:
+  windows:
+  - W: 10
+    S: 2
+  - W: 5
+    S: 2
+  stratified_splits_glob: stratified_seed*
+  time_ordered_splits_glob: time_ordered*43
+tasks:
+  run_binary: true
+  run_multiclass: true
+onset:
+  run_summary_path: /path/to/windowing/network_run_summary_all.csv # this csv is generated form the windowing code
+  onset_col: t_first_attack_flow_s
+  benign_family_name: Benign
+thresholds:
+  fpr_targets:
+  - 0.01
+  policies:
+  - benign_runs_only
+  - pre_attack
+  - all_benign_labeled
+  benign_family_name: Benign
+models:
+  tabular:
+    logreg:
+      enabled: false
+      C: 1.0
+      max_iter: 2000
+      class_weight: balanced
+    xgboost:
+      enabled: false
+      n_estimators: 500
+      max_depth: 6
+      learning_rate: 0.05
+      subsample: 0.8
+      colsample_bytree: 0.8
+      reg_lambda: 1.0
+      reg_alpha: 0.0
+      tree_method: hist
+      n_jobs: -1
+    rf: 
+      enabled: false  
+      n_estimators: 800
+      max_depth: null
+      min_samples_leaf: 1
+      max_features: sqrt
+      class_weight: balanced_subsample
+      n_jobs: -1
+      random_state: 0
+  dl:
+    resmlp:
+      enabled: false
+      d_model: 128
+      n_blocks: 4
+      mlp_ratio: 2.0
+      dropout: 0.1
+      use_grn: true
+      grn_eps: 1e-6
+      lr: 0.001
+      weight_decay: 0.0001
+      batch_size: 256
+      grad_clip_norm: 1.0
+      max_epochs: 40
+      patience: 8
+      val_frac: 0.2
+      device: cuda
+      amp: false
+      num_workers: 0
+    gru:
+      enabled: false
+      seq_len: 8
+      add_pad_indicator: true
+      d_model: 64
+      n_layers: 1
+      dropout: 0.2
+      lr: 0.0003
+      weight_decay: 0.0001
+      batch_size: 256
+      max_epochs: 80
+      patience: 10
+      grad_clip_norm: 1.0
+      val_frac: 0.2
+      amp: false
+    tcn:
+      enabled: false
+      seq_len: 8
+      add_pad_indicator: true
+      d_model: 64
+      n_blocks: 3
+      kernel_size: 3
+      dropout: 0.2
+      use_weight_norm: true
+      norm: group
+      lr: 0.0003
+      weight_decay: 0.0001
+      batch_size: 256
+      max_epochs: 80
+      patience: 10
+      grad_clip_norm: 1.0
+      val_frac: 0.2
+      amp: false
+    transformer:
+      enabled: false
+      seq_len: 8
+      add_pad_indicator: true
+      d_model: 64
+      n_layers: 2
+      n_heads: 4
+      ff_mult: 2.0
+      dropout: 0.2
+      lr: 0.0003
+      weight_decay: 0.0001
+      batch_size: 256
+      max_epochs: 80
+      patience: 10
+      grad_clip_norm: 1.0
+      val_frac: 0.2
+      amp: false
+
+fusion:
+  mean_prob:
+    enabled: true
+  stacked_logreg:
+    enabled: true
+    C: 1.0
+outputs:
+  save_predictions: true
+  save_models: true
+  save_ttd_runs: true
+  write_run_artifacts: true
+feature_ablation:
+  enabled: true
+  variant: drop_history_onehots
+  modalities: [network]
+  mode_onehot_prefixes:
+  - proto_mode_
+  - service_mode_
+  - conn_state_mode_
+  - history_mode_
+oof:
+  folds_binary: 3
+  folds_multiclass: 2
+optuna:
+  out_dir: /where/to/save/optuna-hpo/results
+  split: stratified_seed43
+  W: 10
+  S: 2
+  model: gru
+  tasks:
+  - binary
+  - multiclass
+  modalities:
+  - network
+  - radio
+  n_trials: 50
+  timeout_s: 3600
+  sampler: tpe
+  pruner: median
+  startup_trials: 10
+  warmup_steps: 3
+  seed: 43

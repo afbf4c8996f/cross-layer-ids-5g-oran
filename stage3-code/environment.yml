@@ -1,0 +1,30 @@
+name: MCVWP
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12.2
+  # Data
+  - numpy=2.2.4
+  - pandas=2.2.3
+  - pyarrow
+  - fastparquet=2024.11.0
+  - scipy=1.15.2
+  # ML
+  - scikit-learn=1.6.1
+  - xgboost=2.1.1
+  - joblib=1.4.2
+  # Deep learning (CUDA 12.4)
+  - pytorch=2.5.1=gpu_cuda124_py312hfee4293_304
+  - pytorch-cuda=12.4
+  - cudnn=9.1.1.17
+  # HPO
+  - pip:
+    - optuna==4.3.0
+  # Config & utils
+  - pyyaml=6.0.2
+  - tqdm=4.67.1
+  # Plotting (alignment analysis)
+  - matplotlib=3.10.0

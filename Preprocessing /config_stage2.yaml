@@ -1,0 +1,30 @@
+# config_stage2_template.yaml
+# Stage-2 config: splits + preprocessing (paths relative to the Stage-1 out_dir)
+
+paths:
+  paired_runs_csv: /path/to/paired_runs.csv
+  # Stage-1 output directory (contains windows/ and network_paired42.parquet and radio_seconds_paired42.parquet)
+  out_dir: /path/to/preprocessing-output
+  stage1_out_dir: /path/to/window-output
+
+# Splitting
+splits:
+  strategies: "stratified,time_ordered" #time_ordered never used in the paper but fully functional
+  val_frac: 0.15
+  test_frac: 0.15
+  # Either specify seeds explicitly:
+  # seeds: [42, 43, 44]
+  # or generate k seeds:
+  k_seeds: 10 
+  seed_start: 42
+
+# Window configs (these must exist under out_dir/windows/)
+windows:
+  - [10, 2]
+  - [5, 2]
+
+# Preprocessing
+preprocess:
+  modalities: "network,radio"
+  # Default behavior in preprocess_windows.py is to drop empty windows (n_flows==0) for training.
+  # can be overriden via CLI: --keep-empty-windows

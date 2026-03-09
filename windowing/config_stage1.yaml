@@ -1,0 +1,20 @@
+# config_stage1_template.yaml
+# Stage-1 preparation config (paths + window specs)
+paths:
+  paired_runs_csv: /path/to/the/paired_runs.csv
+  network_parquet: /path/to/parquet_out/Network_Dataset_with_ts_iat.parquet
+  out_dir: /path/to/window-output
+
+# Either provide windows list...
+windows:
+  - [10, 2]
+  - [5, 2]
+# ...or provide a string:
+# windows_spec: "10:2,5:2"
+
+labels:
+  majority_threshold: 0.5
+
+radio:
+  # telemetry timestamp keys to look for (first present will be used)
+  timestamp_keys: ["timestamp", "ts"]
