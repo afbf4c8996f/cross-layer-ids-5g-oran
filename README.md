@@ -21,7 +21,7 @@ Install dependencies from the provided `environment.yml`:
 
 ```bash
 conda env create -f stage3-code/environment.yml
-conda activate MCVWP
+conda activate MCVWP  # name defined in environment.yml — change if you renamed it
 ```
 
 For GPU-backed DL models, ensure a CUDA-compatible PyTorch build is installed. For `.pcapng` files, `tshark` must be available on your `PATH`.
@@ -38,8 +38,7 @@ CodeArtifacts/
 ├── stage3-code/
 ├── helper/
 └── stage3-output-opt-tuned/   ← pre-tuned hyperparameters (see below)
-    ├── {model}/artifacts/{split}/{W*_S*}/{model}/run_artifact.json
-    └── merged/                ← aggregated results CSVs
+    └── {model}/artifacts/{split}/{W*_S*}/{model}/run_artifact.json
 ```
 
 ---
