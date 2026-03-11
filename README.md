@@ -24,7 +24,7 @@ conda env create -f stage3-code/environment.yml
 conda activate MCVWP  # name defined in environment.yml — change if you renamed it
 ```
 
-For GPU-backed DL models, ensure a CUDA-compatible PyTorch build is installed. For `.pcapng` files, `tshark` must be available on your `PATH`.
+For GPU-backed DL models, ensure a CUDA-compatible PyTorch build is installed. The alignment stage uses a built-in pure-Python reader for `.pcap` files with no external dependencies.
 
 ---
 
